@@ -1,12 +1,6 @@
-﻿using dnSpy.Contracts.App;
-using dnSpy.Contracts.Documents.Tabs.DocViewer;
-using dnSpy.Contracts.Menus;
+﻿using dnSpy.Contracts.Menus;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace dnSpy_Restart_as {
