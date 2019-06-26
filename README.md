@@ -1,7 +1,7 @@
 # dnSpy-restart-as
 Adds a simple menu item to restart dnSpy to a other bit version (64 bit will restart as 32 bit and vice versa)
 
-![Example in 32-bit dnSpy to restart as 64-bit](https://raw.githubusercontent.com/DeStilleGast/dnSpy-restart-as/master/img/img1.png)
+![Example in 32-bit dnSpy to restart as 64-bit](https://raw.githubusercontent.com/DeStilleGast/dnSpy-restart-as/master/img/img2.png)
 
 
 # To add in your dnSpy
