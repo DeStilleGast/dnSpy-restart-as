@@ -13,6 +13,6 @@ Adds a simple menu item to restart dnSpy to a other bit version (64 bit will res
 # How to build
 - Follow instructions to add references from here https://github.com/0xd4d/dnSpy/wiki/Extensions
 - build it
-- Copy "dnSpy restart as.x.dll" to your dnSpy folder location (or create a folder named "Extensions" in the directory from dnSpy and place the dll there)
+- Copy "dnSpy restart as.x.dll" to your dnSpy folder location (or a subfolder named "Extensions" and place the dll in there)
 - (re)start dnSpy
 - enjoy
