@@ -15,8 +15,6 @@ namespace dnSpy_Restart_as {
             }
         }
 
-        public void OnEvent(ExtensionEvent @event, object obj) {
-
-        }
+        public void OnEvent(ExtensionEvent @event, object obj) { }
     }
 }
