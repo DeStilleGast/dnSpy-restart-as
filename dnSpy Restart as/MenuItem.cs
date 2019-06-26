@@ -1,6 +1,7 @@
 ﻿using dnSpy.Contracts.Menus;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Input;
 
 namespace dnSpy_Restart_as {
@@ -21,7 +22,7 @@ namespace dnSpy_Restart_as {
             public override void Execute(IMenuItemContext context) {
                 ((ICommand)ApplicationCommands.Close).Execute(context);
 
-                Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}\\dnSpy-x86.exe");
+                Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dnSpy-x86.exe"));
             }
 
             public override bool IsVisible(IMenuItemContext context) {
@@ -35,7 +36,7 @@ namespace dnSpy_Restart_as {
             public override void Execute(IMenuItemContext context) {
                 ((ICommand)ApplicationCommands.Close).Execute(context);
 
-                Process.Start($"{AppDomain.CurrentDomain.BaseDirectory}\\dnSpy.exe");
+                Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dnSpy.exe"));
             }
 
             public override bool IsVisible(IMenuItemContext context) {
