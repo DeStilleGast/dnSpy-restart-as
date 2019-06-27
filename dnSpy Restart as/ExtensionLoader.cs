@@ -7,7 +7,7 @@ namespace dnSpy_Restart_as {
     public class ExtensionLoader : IExtension {
         public ExtensionInfo ExtensionInfo => new ExtensionInfo() {
             ShortDescription = "Ability to restart as other bit version.",
-            Copyright = "DeStilleGast"
+            Copyright = "Copyright 2019 DeStilleGast"
         };
 
         public IEnumerable<string> MergedResourceDictionaries {
