@@ -18,14 +18,15 @@ namespace dnSpy_Restart_as {
             return new CreatedMenuItem(attr, new AbstractMenuCommand(action));
         }
 
-        protected bool IsAdministrator() {
+        public static bool IsAdministrator() {
             using (var id = WindowsIdentity.GetCurrent())
                 return new WindowsPrincipal(id).IsInRole(WindowsBuiltInRole.Administrator);
         }
 
-        protected void RestartAs(IMenuItemContext context, bool bit32, bool asAdmin) {
+        public static void RestartAs(object context, bool bit32, bool asAdmin) {
             // Close dnSpy (save all settings so dnSpy can open correctly again)
             ((ICommand)ApplicationCommands.Close).Execute(context);
+
 
             ProcessStartInfo startInfo;
 

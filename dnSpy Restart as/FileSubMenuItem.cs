@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace dnSpy_Restart_as {
-    static class MenuItem {
+    static class FileSubMenuItem {
         static class MainMenuConstants {
 
             // Restart item in File menu
