@@ -1,4 +1,5 @@
-﻿using dnSpy.Contracts.Menus;
+﻿using dnSpy.Contracts.App;
+using dnSpy.Contracts.Menus;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,18 +25,19 @@ namespace dnSpy_Restart_as {
         }
 
         public static void RestartAs(object context, bool bit32, bool asAdmin) {
+            var dnSpyLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"dnSpy{(bit32 ? "-x86" : "")}.exe");
+
+            ProcessStartInfo startInfo = new ProcessStartInfo(dnSpyLocation);
+
+            if (!File.Exists(startInfo.FileName)) {
+                MsgBox.Instance.Show($"Could not find '{new FileInfo(startInfo.FileName).Name}' in the folder where dnSpy is located, can not restart as {(bit32 ? "32" : "64")}bit !");
+                return;
+            }
+
             // Close dnSpy (save all settings so dnSpy can open correctly again)
             ((ICommand)ApplicationCommands.Close).Execute(context);
 
 
-            ProcessStartInfo startInfo;
-
-            if (bit32) {
-                startInfo = new ProcessStartInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dnSpy-x86.exe"));
-            } else {
-                startInfo = new ProcessStartInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dnSpy.exe"));
-            }
-;
             if (asAdmin) {
                 startInfo.UseShellExecute = true;
                 startInfo.Verb = "runas";
