@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Windows.Input;
 
@@ -25,14 +27,15 @@ namespace dnSpy_Restart_as {
         }
 
         public static void RestartAs(object context, bool bit32, bool asAdmin) {
-            bool? isUsingNetCore = Assembly
+            var isUsingNetCore = Assembly
                 .GetEntryAssembly()?
                 .GetCustomAttribute<TargetFrameworkAttribute>()?
                 .FrameworkName.StartsWith(".NETCoreApp");
 
-            var dnSpyLocation;
-            var dnSpyFilename;
-            var dnSpyFolder;
+            var dnSpyFolder = AppDomain.CurrentDomain.BaseDirectory;
+            var dnSpyFilename = $"dnSpy{(bit32 ? "-x86" : "")}.exe";
+            var dnSpyLocation = Path.Combine(dnSpyFolder, dnSpyFilename);
+
             if (isUsingNetCore == true) {
                 /*
                  * Expect a fixed folder structure. Note that due to 0xd4d custom 
@@ -43,11 +46,6 @@ namespace dnSpy_Restart_as {
                 */
                 dnSpyFolder = Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, $"{(bit32 ? "x86" : "x64")}");
                 dnSpyFilename = "dnSpy.exe";
-                dnSpyLocation = Path.Combine(dnSpyFolder, dnSpyFilename);
-            }
-            else {
-                dnSpyFolder = AppDomain.CurrentDomain.BaseDirectory;
-                dnSpyFilename = $"dnSpy{(bit32 ? "-x86" : "")}.exe";
                 dnSpyLocation = Path.Combine(dnSpyFolder, dnSpyFilename);
             }
 
