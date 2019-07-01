@@ -25,18 +25,41 @@ namespace dnSpy_Restart_as {
         }
 
         public static void RestartAs(object context, bool bit32, bool asAdmin) {
-            var dnSpyLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"dnSpy{(bit32 ? "-x86" : "")}.exe");
+            bool? isUsingNetCore = Assembly
+                .GetEntryAssembly()?
+                .GetCustomAttribute<TargetFrameworkAttribute>()?
+                .FrameworkName.StartsWith(".NETCoreApp");
 
-            ProcessStartInfo startInfo = new ProcessStartInfo(dnSpyLocation);
+            var dnSpyLocation;
+            var dnSpyFilename;
+            var dnSpyFolder;
+            if (isUsingNetCore == true) {
+                /*
+                 * Expect a fixed folder structure. Note that due to 0xd4d custom 
+                 * patch the executable is always in the parent folder in .NET Core
+                 *  --
+                 *  --x86--dnSpy.exe
+                 *  --x64--dnSpy.exe
+                */
+                dnSpyFolder = Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, $"{(bit32 ? "x86" : "x64")}");
+                dnSpyFilename = "dnSpy.exe";
+                dnSpyLocation = Path.Combine(dnSpyFolder, dnSpyFilename);
+            }
+            else {
+                dnSpyFolder = AppDomain.CurrentDomain.BaseDirectory;
+                dnSpyFilename = $"dnSpy{(bit32 ? "-x86" : "")}.exe";
+                dnSpyLocation = Path.Combine(dnSpyFolder, dnSpyFilename);
+            }
 
-            if (!File.Exists(startInfo.FileName)) {
-                MsgBox.Instance.Show($"Could not find '{new FileInfo(startInfo.FileName).Name}' in the folder where dnSpy is located, can not restart as {(bit32 ? "32" : "64")}bit !");
+            if (!File.Exists(dnSpyLocation)) {
+                MsgBox.Instance.Show($"Could not find '{dnSpyFilename}' in folder '{dnSpyFolder}', can not restart as {(bit32 ? "32" : "64")}bit !");
                 return;
             }
 
             // Close dnSpy (save all settings so dnSpy can open correctly again)
             ((ICommand)ApplicationCommands.Close).Execute(context);
 
+            var startInfo = new ProcessStartInfo(dnSpyLocation);
 
             if (asAdmin) {
                 startInfo.UseShellExecute = true;
