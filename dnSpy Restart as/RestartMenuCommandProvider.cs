@@ -33,8 +33,7 @@ namespace dnSpy_Restart_as {
             var dnSpyLocation;
             var dnSpyFilename;
             var dnSpyFolder;
-            if (isUsingNetCore == true)
-            {
+            if (isUsingNetCore == true) {
                 /*
                  * Expect a fixed folder structure. Note that due to 0xd4d custom 
                  * patch the executable is always in the parent folder in .NET Core
@@ -46,8 +45,7 @@ namespace dnSpy_Restart_as {
                 dnSpyFilename = "dnSpy.exe";
                 dnSpyLocation = Path.Combine(dnSpyFolder, dnSpyFilename);
             }
-            else
-            {
+            else {
                 dnSpyFolder = AppDomain.CurrentDomain.BaseDirectory;
                 dnSpyFilename = $"dnSpy{(bit32 ? "-x86" : "")}.exe";
                 dnSpyLocation = Path.Combine(dnSpyFolder, dnSpyFilename);
