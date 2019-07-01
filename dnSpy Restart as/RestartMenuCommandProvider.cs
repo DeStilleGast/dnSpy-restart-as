@@ -30,9 +30,9 @@ namespace dnSpy_Restart_as {
                 .GetCustomAttribute<TargetFrameworkAttribute>()?
                 .FrameworkName.StartsWith(".NETCoreApp");
 
-            string dnSpyLocation;
-            string dnSpyFilename;
-            string dnSpyFolder;
+            var dnSpyLocation;
+            var dnSpyFilename;
+            var dnSpyFolder;
             if (isUsingNetCore == true)
             {
                 /*
@@ -53,9 +53,7 @@ namespace dnSpy_Restart_as {
                 dnSpyLocation = Path.Combine(dnSpyFolder, dnSpyFilename);
             }
 
-            ProcessStartInfo startInfo = new ProcessStartInfo(dnSpyLocation);
-
-            if (!File.Exists(startInfo.FileName)) {
+            if (!File.Exists(dnSpyLocation)) {
                 MsgBox.Instance.Show($"Could not find '{dnSpyFilename}' in folder '{dnSpyFolder}', can not restart as {(bit32 ? "32" : "64")}bit !");
                 return;
             }
@@ -63,6 +61,7 @@ namespace dnSpy_Restart_as {
             // Close dnSpy (save all settings so dnSpy can open correctly again)
             ((ICommand)ApplicationCommands.Close).Execute(context);
 
+            var startInfo = new ProcessStartInfo(dnSpyLocation);
 
             if (asAdmin) {
                 startInfo.UseShellExecute = true;
